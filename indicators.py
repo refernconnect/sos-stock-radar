@@ -67,7 +67,7 @@ def vcp_detect(df: pd.DataFrame) -> bool:
     if len(pulls) < 3:
         return False
     last3 = pulls[-3:]
-    return last3[0] > last3[1] > last3[2] and last3[2] < 6.0
+   return bool(last3[0] > last3[1] > last3[2] and last3[2] < 6.0)
 
 def trendlines(df: pd.DataFrame) -> list[dict]:
     """Objective trendlines: lines through >=TRENDLINE_MIN_TOUCHES pivots
