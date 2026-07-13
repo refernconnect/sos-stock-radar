@@ -17,8 +17,6 @@ def ret_pct(df: pd.DataFrame, sessions: int) -> float:
     return float((df["c"].iloc[-1] / df["c"].iloc[-1 - sessions] - 1) * 100)
 
 def fractal_pivots(df: pd.DataFrame, k=2):
-    """Return (pivot_high_idx, pivot_low_idx) — bars that are local extremes
-    over k bars each side."""
     h, l = df["h"].values, df["l"].values
     ph, pl = [], []
     for i in range(k, len(df) - k):
@@ -37,8 +35,6 @@ def nr7_inside(df: pd.DataFrame) -> dict:
     }
 
 def base_detect(df: pd.DataFrame) -> dict | None:
-    """Multi-week base: last N sessions (N>=BASE_MIN_SESSIONS) whose total
-    range <= BASE_MAX_RANGE_PCT. Returns boundaries or None."""
     for n in range(60, config.BASE_MIN_SESSIONS - 1, -5):
         if len(df) < n:
             continue
@@ -51,8 +47,6 @@ def base_detect(df: pd.DataFrame) -> dict | None:
     return None
 
 def vcp_detect(df: pd.DataFrame) -> bool:
-    """Minervini-style volatility contraction: last 3 pullback depths within
-    an uptrend leg must be sequentially shrinking."""
     ph, pl = fractal_pivots(df.tail(120).reset_index(drop=True), k=2)
     if len(ph) < 3 or len(pl) < 3:
         return False
@@ -67,12 +61,9 @@ def vcp_detect(df: pd.DataFrame) -> bool:
     if len(pulls) < 3:
         return False
     last3 = pulls[-3:]
-   return bool(last3[0] > last3[1] > last3[2] and last3[2] < 6.0)
+    return bool(last3[0] > last3[1] > last3[2] and last3[2] < 6.0)
 
 def trendlines(df: pd.DataFrame) -> list[dict]:
-    """Objective trendlines: lines through >=TRENDLINE_MIN_TOUCHES pivots
-    within TRENDLINE_TOL_PCT, most recent touch within last 15 sessions.
-    Returns list of {kind, value_today, touches}."""
     out = []
     w = df.tail(180).reset_index(drop=True)
     ph, pl = fractal_pivots(w, k=2)
@@ -103,7 +94,6 @@ def trendlines(df: pd.DataFrame) -> list[dict]:
     return out
 
 def anchored_vwap(df: pd.DataFrame, anchor_idx: int) -> float | None:
-    """AVWAP on daily bars from anchor to present using typical price * volume."""
     w = df.iloc[anchor_idx:]
     if w.empty or w["v"].sum() == 0:
         return None
