@@ -1,8 +1,6 @@
 """sos-stock-radar :: sectors
 Stock -> sector index mapping for the liquid F&O names. Names not mapped fall
 back to NIFTY 50 as their RS benchmark (gate still works, just less sharp).
-VERIFY: extend this map when the weekly universe pulls in an unmapped symbol —
-module_a logs a warning listing unmapped names each morning.
 """
 
 SECTOR_INDEX = {
@@ -18,14 +16,17 @@ SECTOR_INDEX = {
     "PSUBANK": "NIFTY PSU BANK",
     "MEDIA":  "NIFTY MEDIA",
     "INFRA":  "NIFTY INFRA",
+    "CONSDUR": "NIFTY CONSR DURBL",
+    "CONSUMPTION": "NIFTY CONSUMPTION",
+    "PSE":    "NIFTY PSE",
 }
 
 STOCK_SECTOR = {
     # Banks / Financials
     "HDFCBANK": "BANK", "ICICIBANK": "BANK", "SBIN": "PSUBANK", "AXISBANK": "BANK",
     "KOTAKBANK": "BANK", "INDUSINDBK": "BANK", "BANKBARODA": "PSUBANK",
-    "PNB": "PSUBANK", "CANBK": "PSUBANK", "FEDERALBNK": "BANK", "IDFCFIRSTB": "BANK",
-    "AUBANK": "BANK", "BANDHANBNK": "BANK",
+    "PNB": "PSUBANK", "CANBK": "PSUBANK", "INDIANB": "PSUBANK",
+    "FEDERALBNK": "BANK", "IDFCFIRSTB": "BANK", "AUBANK": "BANK", "BANDHANBNK": "BANK",
     "BAJFINANCE": "FIN", "BAJAJFINSV": "FIN", "HDFCLIFE": "FIN", "SBILIFE": "FIN",
     "ICICIPRULI": "FIN", "ICICIGI": "FIN", "SBICARD": "FIN", "CHOLAFIN": "FIN",
     "SHRIRAMFIN": "FIN", "M&MFIN": "FIN", "LICHSGFIN": "FIN", "PFC": "FIN",
@@ -35,7 +36,7 @@ STOCK_SECTOR = {
     # IT
     "TCS": "IT", "INFY": "IT", "WIPRO": "IT", "HCLTECH": "IT", "TECHM": "IT",
     "LTIM": "IT", "COFORGE": "IT", "PERSISTENT": "IT", "MPHASIS": "IT",
-    "OFSS": "IT", "KPITTECH": "IT", "TATAELXSI": "IT", "NAUKRI": "IT", "ZOMATO": "IT",
+    "OFSS": "IT", "KPITTECH": "IT", "TATAELXSI": "IT", "NAUKRI": "IT",
     # Auto
     "MARUTI": "AUTO", "TATAMOTORS": "AUTO", "M&M": "AUTO", "BAJAJ-AUTO": "AUTO",
     "HEROMOTOCO": "AUTO", "EICHERMOT": "AUTO", "TVSMOTOR": "AUTO",
@@ -56,10 +57,19 @@ STOCK_SECTOR = {
     "ADANIGREEN": "ENERGY", "ADANIPOWER": "ENERGY", "TATAPOWER": "ENERGY",
     "ADANIENSOL": "ENERGY", "JSWENERGY": "ENERGY", "NHPC": "ENERGY", "SJVN": "ENERGY",
     "OIL": "ENERGY", "HINDPETRO": "ENERGY", "PETRONET": "ENERGY", "IGL": "ENERGY",
-    # FMCG / Consumer
+    # FMCG / Consumer staples
     "HINDUNILVR": "FMCG", "ITC": "FMCG", "NESTLEIND": "FMCG", "BRITANNIA": "FMCG",
     "TATACONSUM": "FMCG", "DABUR": "FMCG", "GODREJCP": "FMCG", "MARICO": "FMCG",
     "COLPAL": "FMCG", "UNITDSPR": "FMCG", "VBL": "FMCG", "JUBLFOOD": "FMCG",
+    # Consumer durables / discretionary
+    "TITAN": "CONSDUR", "DIXON": "CONSDUR", "KALYANKJIL": "CONSDUR",
+    "HAVELLS": "CONSDUR", "POLYCAB": "CONSDUR", "VOLTAS": "CONSDUR",
+    # Consumption / retail / platforms
+    "TRENT": "CONSUMPTION", "DMART": "CONSUMPTION", "ETERNAL": "CONSUMPTION",
+    "ZOMATO": "CONSUMPTION", "SWIGGY": "CONSUMPTION",
+    # PSE / defence
+    "BHEL": "PSE", "BEL": "PSE", "HAL": "PSE", "BDL": "PSE",
+    "MAZDOCK": "PSE", "COCHINSHIP": "PSE",
     # Realty / Infra / Cement
     "DLF": "REALTY", "GODREJPROP": "REALTY", "OBEROIRLTY": "REALTY",
     "PRESTIGE": "REALTY", "LODHA": "REALTY", "PHOENIXLTD": "REALTY",
@@ -67,15 +77,14 @@ STOCK_SECTOR = {
     "IRB": "INFRA", "NCC": "INFRA", "RVNL": "INFRA", "IRCON": "INFRA", "NBCC": "INFRA",
     "ULTRACEMCO": "INFRA", "GRASIM": "INFRA", "AMBUJACEM": "INFRA", "SHREECEM": "INFRA",
     "DALBHARAT": "INFRA", "ACC": "INFRA",
-    # Others (RS vs NIFTY 50 only)
-    "BHARTIARTL": "NIFTY50", "TITAN": "NIFTY50", "ASIANPAINT": "NIFTY50",
-    "PIDILITIND": "NIFTY50", "HAL": "NIFTY50", "BEL": "NIFTY50", "BDL": "NIFTY50",
-    "MAZDOCK": "NIFTY50", "COCHINSHIP": "NIFTY50", "SIEMENS": "NIFTY50",
-    "ABB": "NIFTY50", "CGPOWER": "NIFTY50", "POLYCAB": "NIFTY50", "HAVELLS": "NIFTY50",
-    "DIXON": "NIFTY50", "KAYNES": "NIFTY50", "TRENT": "NIFTY50", "DMART": "NIFTY50",
-    "INDIGO": "NIFTY50", "IRCTC": "NIFTY50", "CONCOR": "NIFTY50", "DELHIVERY": "NIFTY50",
-    "SRF": "NIFTY50", "PIIND": "NIFTY50", "UPL": "NIFTY50", "DEEPAKNTR": "NIFTY50",
-    "TATACHEM": "NIFTY50", "ASTRAL": "NIFTY50", "SUPREMEIND": "NIFTY50", "VOLTAS": "NIFTY50",
+    # Others (RS vs NIFTY 50 only — no clean sector index)
+    "BHARTIARTL": "NIFTY50", "INDUSTOWER": "NIFTY50", "INDIGO": "NIFTY50",
+    "ASIANPAINT": "NIFTY50", "PIDILITIND": "NIFTY50", "SIEMENS": "NIFTY50",
+    "ABB": "NIFTY50", "CGPOWER": "NIFTY50", "DIXONTECH": "NIFTY50",
+    "KAYNES": "NIFTY50", "IRCTC": "NIFTY50", "CONCOR": "NIFTY50",
+    "DELHIVERY": "NIFTY50", "SRF": "NIFTY50", "PIIND": "NIFTY50", "UPL": "NIFTY50",
+    "DEEPAKNTR": "NIFTY50", "TATACHEM": "NIFTY50", "ASTRAL": "NIFTY50",
+    "SUPREMEIND": "NIFTY50",
 }
 
 def sector_of(symbol: str) -> str:
