@@ -63,3 +63,6 @@ SECTOR_TOP_N = 2              # top/bottom sectors considered "in play"
 # --- market internals (Cook-style breadth, TICK proxy for India) ---
 BREADTH_MIN_LONG = 50.0       # % of universe above prev close required for longs
 BREADTH_MAX_SHORT = 50.0      # % must be at/below this for shorts
+
+SOS_KITE_URL = os.getenv("SOS_KITE_URL", "")
+TOKEN_SHARE_SECRET = os.getenv("TOKEN_SHARE_SECRET", "")
