@@ -38,6 +38,11 @@ def _report():
     import paper_log
     paper_log.daily_report()
 
+def _fvg_cpr():
+    import fvg_cpr_scanner
+    fvg_cpr_scanner.run()
+
+
 if __name__ == "__main__":
     db.init()
     tz = pytz.timezone(config.TZ)
@@ -45,6 +50,8 @@ if __name__ == "__main__":
     sched.add_job(_universe, "cron", day_of_week="sun", hour=10, minute=0)
     sched.add_job(_module_a, "cron", day_of_week="mon-fri", hour=8, minute=45)
     sched.add_job(_module_b, "cron", day_of_week="mon-fri", hour=9, minute=10)
+    sched.add_job(_fvg_cpr, "cron", day_of_week="mon-fri", hour=9, minute=35)
+    sched.add_job(_fvg_cpr, "cron", day_of_week="mon-fri", hour=14, minute=30)
     sched.add_job(_report,   "cron", day_of_week="mon-fri", hour=15, minute=45)
     sched.add_job(_module_c, "cron", day_of_week="mon-fri", hour=18, minute=30)
     log.info("sos-stock-radar scheduler started (IST)")
